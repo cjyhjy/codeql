@@ -100,9 +100,9 @@ private predicate constructorCallSelector(CallExpr call, TypeSelector type, stri
 
 private predicate isSubclassOfType(ClassLikeDeclaration cls, TypeSelector typeName) {
   (
-    typeName = any(Selector s).getTypeString()
+    typeName = any(MemberSelector s).getTypeString()
     or
-    typeName.getMetaType() = any(Selector s).getTypeString()
+    typeName.getMetaType() = any(MemberSelector s).getTypeString()
   ) and
   (
     getQualifiedNameFromExpr(cls.getABaseType().getType()) = typeName
@@ -156,12 +156,12 @@ private predicate isRawPropertyName(string name) {
 pragma[nomagic]
 private predicate propertyAccessSelector(MemberAccess access, T::Type baseType, string name) {
   name = access.getMemberName() and
-  name = any(Selector s).getPropertyName() and
+  name = any(MemberSelector s).getPropertyName() and
   not access = any(CallExpr call).getCallee() and
   baseType = T::inferBaseType(access)
 }
 
-private newtype TSelector =
+private newtype TMemberSelector =
   MkCallSelector(string type, boolean subtypes, string name, string argLabels, string argTypes) {
     exists(string rawName |
       legacySourceModel(_, type, subtypes, rawName, argTypes, _, _, _, _)
@@ -188,7 +188,7 @@ private newtype TSelector =
  * Static members are members of the meta type, so their type is written as, for example,
  * `String.Type`.
  */
-class Selector extends TSelector {
+class MemberSelector extends TMemberSelector {
   string getTypeString() {
     this = MkCallSelector(result, _, _, _, _) or this = MkPropertySelector(result, _, _)
   }
@@ -269,7 +269,7 @@ class Selector extends TSelector {
 /** Gets the `n`th `.`-separated component in the given `type` string. */
 pragma[nomagic]
 private string getTypeComponent(string type, int n) {
-  type = any(Selector s).getTypeString() and
+  type = any(MemberSelector s).getTypeString() and
   result = type.splitAt(".", n)
 }
 
@@ -466,7 +466,7 @@ private DataFlow::Node getSinkFromPropertyAccess(MemberAccess access, AccessPath
 }
 
 private predicate normalizedSourceModel(
-  Selector selector, AccessPath output, string kind, string provenance
+  MemberSelector selector, AccessPath output, string kind, string provenance
 ) {
   exists(string type, boolean subtypes, string rawName, string argTypes |
     legacySourceModel(_, type, subtypes, rawName, argTypes, _, output, kind, provenance)
@@ -481,7 +481,7 @@ private predicate normalizedSourceModel(
 }
 
 private predicate normalizedSinkModel(
-  Selector selector, AccessPath output, string kind, string provenance
+  MemberSelector selector, AccessPath output, string kind, string provenance
 ) {
   exists(string type, boolean subtypes, string rawName, string argTypes |
     legacySinkModel(_, type, subtypes, rawName, argTypes, _, output, kind, provenance)
@@ -496,7 +496,7 @@ private predicate normalizedSinkModel(
 }
 
 predicate normalizedSummaryModel(
-  Selector selector, string input, string output, string kind, string provenance
+  MemberSelector selector, string input, string output, string kind, string provenance
 ) {
   exists(
     string type, boolean subtypes, string rawName, string name, string argLabels, string argTypes
@@ -511,7 +511,7 @@ predicate normalizedSummaryModel(
  * Gets a flow source with the given `kind` and `provenance`.
  */
 DataFlow::Node getASource(string kind, string provenance) {
-  exists(Selector selector, AccessPath output |
+  exists(MemberSelector selector, AccessPath output |
     normalizedSourceModel(selector, output, kind, provenance)
   |
     exists(DataFlowCall call |
@@ -535,7 +535,7 @@ DataFlow::Node getASource(string kind, string provenance) {
  * Gets a sink with the given `kind` and `provenance`.
  */
 DataFlow::Node getASink(string kind, string provenance) {
-  exists(Selector selector, AccessPath input |
+  exists(MemberSelector selector, AccessPath input |
     normalizedSinkModel(selector, input, kind, provenance)
   |
     exists(DataFlowCall call |
@@ -567,7 +567,7 @@ module Public {
 }
 
 private module Debug {
-  query predicate invalidAccessPath(Selector selector, AccessPathToken ap) {
+  query predicate invalidAccessPath(MemberSelector selector, AccessPathToken ap) {
     (
       normalizedSourceModel(selector, ap, _, _)
       or
