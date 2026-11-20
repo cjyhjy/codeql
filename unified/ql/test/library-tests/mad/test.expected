@@ -34,6 +34,10 @@ isSink
 | test.swift:218:9:218:14 | string | shorthand-sink |
 | test.swift:239:13:239:13 | 0 | subscript-getter-sink |
 | test.swift:240:5:240:10 | ... .subscript(...) | subscript-setter-sink |
+| test.swift:249:22:249:27 | string | instance-sink |
+| test.swift:250:27:250:32 | string | static-sink |
+| test.swift:253:29:253:34 | string | instance-sink |
+| test.swift:254:20:254:25 | string | static-sink |
 isSource
 | test.swift:4:5:4:27 | String(...) | remote |
 | test.swift:5:5:5:44 | String(...) | remote |

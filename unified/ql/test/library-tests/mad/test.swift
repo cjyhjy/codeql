@@ -239,3 +239,17 @@ func testSubscripts(obj: SubscriptTest, string: String) {
     _ = obj[0]  // $ isSink=subscript-getter-sink
     obj[0] = string  // $ isSink=subscript-setter-sink
 }
+
+class StaticTest {
+    func instanceSink(_ x: String) {}
+    static func staticSink(_ x: String) {}
+}
+
+func testStaticAndInstanceMethods(obj: StaticTest, string: String) {
+    obj.instanceSink(string)  // $ isSink=instance-sink
+    StaticTest.staticSink(string)  // $ isSink=static-sink
+
+    // Models for the meta type (`StaticTest.Type`) are not yet distinguished from instance members for method calls
+    StaticTest.instanceSink(string)  // $ SPURIOUS: isSink=instance-sink
+    obj.staticSink(string)  // $ SPURIOUS: isSink=static-sink
+}
