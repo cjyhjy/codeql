@@ -8,7 +8,9 @@
       "data": [
         // namespace, type, subtypes, name, signature, ext, output, kind, provenance
         ["", "ShorthandTest", true, "sourceParams(_:)", "", "", "Parameter[self,0]", "shorthand-source", "manual"],
-        ["", "SubscriptTest", true, "subscript(_:#newValue:)", "", "", "Parameter[#newValue:]", "subscript-setter-source", "manual"]
+        ["", "SubscriptTest", true, "subscript(_:#newValue:)", "", "", "Parameter[#newValue:]", "subscript-setter-source", "manual"],
+        ["", "StaticTest", true, "instanceProp", "", "", "", "instance-prop-source", "manual"],
+        ["", "StaticTest.Type", true, "staticProp", "", "", "", "static-prop-source", "manual"]
       ]
     },
     {

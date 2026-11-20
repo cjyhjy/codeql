@@ -55,3 +55,4 @@ isSource
 | test.swift:209:5:213:5 | [self param] func ShorthandTestSub.sourceParams | shorthand-source |
 | test.swift:210:11:210:11 | x | shorthand-source |
 | test.swift:232:13:232:13 | v | subscript-setter-source |
+| test.swift:254:9:254:24 | ... .instanceProp | instance-prop-source |
