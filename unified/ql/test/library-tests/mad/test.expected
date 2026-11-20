@@ -56,3 +56,10 @@ isSource
 | test.swift:210:11:210:11 | x | shorthand-source |
 | test.swift:232:13:232:13 | v | subscript-setter-source |
 | test.swift:254:9:254:24 | ... .instanceProp | instance-prop-source |
+| test.swift:255:9:255:29 | ... .staticProp | static-prop-source |
+| test.swift:263:13:263:24 | instanceProp | instance-prop-source |
+| test.swift:267:13:267:22 | staticProp | static-prop-source |
+| test.swift:273:13:273:24 | instanceProp | instance-prop-source |
+| test.swift:277:13:277:22 | staticProp | static-prop-source |
+| test.swift:282:9:282:32 | ... .staticProp | static-prop-source |
+| test.swift:283:9:283:24 | ... .instanceProp | instance-prop-source |
