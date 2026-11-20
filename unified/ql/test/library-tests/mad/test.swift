@@ -240,11 +240,7 @@ func testSubscripts(obj: SubscriptTest, string: String) {
     obj[0] = string  // $ isSink=subscript-setter-sink
 }
 
-class StaticTest {
-    func instanceSink(_ x: String) {}
-    static func staticSink(_ x: String) {}
-}
-
+// `StaticTest` is not declared in the test codebase; it is only known from the models.
 func testStaticAndInstanceMethods(obj: StaticTest, string: String) {
     obj.instanceSink(string)  // $ isSink=instance-sink
     StaticTest.staticSink(string)  // $ isSink=static-sink
