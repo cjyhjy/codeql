@@ -265,6 +265,9 @@ class StaticTestSub: StaticTest {
 
     static func testStaticContext() {
         _ = staticProp  // $ isSource=static-prop-source
+        _ = self.staticProp  // $ isSource=static-prop-source
+        _ = instanceProp  // not a source: instance property accessed in a static context
+        _ = self.instanceProp  // not a source: instance property accessed in a static context
     }
 }
 
@@ -275,6 +278,8 @@ extension StaticTest {
 
     static func testStaticContextInExtension() {
         _ = staticProp  // $ isSource=static-prop-source
+        _ = self.staticProp  // $ isSource=static-prop-source
+        _ = instanceProp  // not a source: instance property accessed in a static context
     }
 }
 
